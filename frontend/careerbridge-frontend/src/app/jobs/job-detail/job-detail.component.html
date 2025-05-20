@@ -1,1 +1,92 @@
-<p>job-detail works!</p>
+<div class="job-detail-container">
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading job details...</p>
+  </div>
+  
+  <div *ngIf="!isLoading && error" class="error-container">
+    <mat-icon color="warn">error</mat-icon>
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="goBack()">Back to Jobs</button>
+  </div>
+  
+  <div *ngIf="!isLoading && !error && job" class="job-content">
+    <div class="job-header">
+      <button mat-icon-button (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      
+      <div class="company-logo" *ngIf="job.companyLogo">
+        <img [src]="job.companyLogo" [alt]="job.company + ' logo'">
+      </div>
+      <div class="company-logo placeholder" *ngIf="!job.companyLogo">
+        <mat-icon>business</mat-icon>
+      </div>
+      
+      <div class="job-title-section">
+        <h1>{{ job.title }}</h1>
+        <h2>{{ job.company }} • {{ job.location }}</h2>
+        
+        <div class="job-meta">
+          <span class="job-meta-item">
+            <mat-icon>work</mat-icon> {{ job.employmentType }}
+          </span>
+          <span class="job-meta-item">
+            <mat-icon>stars</mat-icon> {{ job.experienceLevel }}
+          </span>
+          <span class="job-meta-item" *ngIf="job.salary">
+            <mat-icon>attach_money</mat-icon> {{ job.salary }}
+          </span>
+          <span class="job-meta-item">
+            <mat-icon>event</mat-icon> Posted {{ job.postedDate | date }}
+          </span>
+          <span class="job-meta-item" *ngIf="job.deadline">
+            <mat-icon>schedule</mat-icon> Apply by {{ job.deadline | date }}
+          </span>
+        </div>
+        
+        <div class="job-tags">
+          <mat-chip-set>
+            <mat-chip *ngFor="let tag of job.tags">{{ tag }}</mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
+      
+      <div class="apply-button-container">
+        <button mat-raised-button color="primary" (click)="applyForJob()">
+          Apply Now
+        </button>
+      </div>
+    </div>
+    
+    <mat-divider></mat-divider>
+    
+    <div class="job-body">
+      <section class="job-section">
+        <h3>Job Description</h3>
+        <p>{{ job.description }}</p>
+      </section>
+      
+      <section class="job-section">
+        <h3>Requirements</h3>
+        <ul>
+          <li *ngFor="let requirement of job.requirements">{{ requirement }}</li>
+        </ul>
+      </section>
+      
+      <section class="job-section">
+        <h3>Responsibilities</h3>
+        <ul>
+          <li *ngFor="let responsibility of job.responsibilities">{{ responsibility }}</li>
+        </ul>
+      </section>
+      
+      <div class="apply-section">
+        <h3>Interested in this job?</h3>
+        <button mat-raised-button color="primary" (click)="applyForJob()">
+          Apply Now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,126 @@
-<p>job-apply works!</p>
+<div class="job-apply-container">
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading job details...</p>
+  </div>
+  
+  <div *ngIf="!isLoading && error" class="error-container">
+    <mat-icon color="warn">error</mat-icon>
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="goBack()">Back to Job Details</button>
+  </div>
+  
+  <div *ngIf="!isLoading && !error && job" class="application-content">
+    <div class="application-header">
+      <button mat-icon-button (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      
+      <h1>Apply for {{ job.title }}</h1>
+      <h2>{{ job.company }} • {{ job.location }}</h2>
+    </div>
+    
+    <mat-divider></mat-divider>
+    
+    <div class="application-form-container">
+      <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+        <div class="form-section">
+          <h3>Personal Information</h3>
+          
+          <div class="form-field">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Full Name</mat-label>
+              <input matInput formControlName="fullName" placeholder="Enter your full name">
+              <mat-error *ngIf="applicationForm.get('fullName')?.hasError('required')">
+                Full name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" placeholder="Enter your email">
+              <mat-error *ngIf="applicationForm.get('email')?.hasError('required')">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="applicationForm.get('email')?.hasError('email')">
+                Please enter a valid email address
+              </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Phone Number</mat-label>
+              <input matInput formControlName="phone" placeholder="Enter your phone number">
+              <mat-error *ngIf="applicationForm.get('phone')?.hasError('required')">
+                Phone number is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <h3>Application Details</h3>
+          
+          <div class="form-field">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Resume URL</mat-label>
+              <input matInput formControlName="resumeUrl" placeholder="Enter URL to your resume">
+              <mat-hint>Link to your resume on Google Drive, Dropbox, etc.</mat-hint>
+              <mat-error *ngIf="applicationForm.get('resumeUrl')?.hasError('required')">
+                Resume URL is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="form-field">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Cover Letter</mat-label>
+              <textarea matInput formControlName="coverLetter" placeholder="Write your cover letter" rows="8"></textarea>
+              <mat-hint align="end">{{ applicationForm.get('coverLetter')?.value?.length || 0 }}/500 characters</mat-hint>
+              <mat-error *ngIf="applicationForm.get('coverLetter')?.hasError('required')">
+                Cover letter is required
+              </mat-error>
+              <mat-error *ngIf="applicationForm.get('coverLetter')?.hasError('minlength')">
+                Cover letter must be at least 100 characters
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <h3>Additional Information (Optional)</h3>
+          
+          <div class="form-field">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>LinkedIn Profile</mat-label>
+              <input matInput formControlName="linkedInProfile" placeholder="Enter your LinkedIn profile URL">
+            </mat-form-field>
+          </div>
+          
+          <div class="form-field">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Portfolio URL</mat-label>
+              <input matInput formControlName="portfolioUrl" placeholder="Enter your portfolio website URL">
+            </mat-form-field>
+          </div>
+          
+          <div class="form-field">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Referral</mat-label>
+              <input matInput formControlName="referral" placeholder="How did you hear about this position?">
+            </mat-form-field>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button mat-stroked-button type="button" (click)="goBack()">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
+            <mat-spinner *ngIf="isSubmitting" diameter="20" class="spinner"></mat-spinner>
+            <span *ngIf="!isSubmitting">Submit Application</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

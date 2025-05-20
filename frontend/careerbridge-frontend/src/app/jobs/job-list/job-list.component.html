@@ -1,1 +1,101 @@
-<p>job-list works!</p>
+<div class="job-list-container">
+  <div class="job-list-header">
+    <h1>Find Your Next Opportunity</h1>
+    
+    <div class="search-bar">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search jobs</mat-label>
+        <input matInput placeholder="Search by title, company, or keyword" 
+               [value]="searchTerm"
+               (keyup.enter)="onSearch($event.target.value)">
+        <button mat-icon-button matSuffix (click)="onSearch(searchTerm)">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+      
+      <button mat-stroked-button color="primary" (click)="clearFilters()" class="clear-button">
+        <mat-icon>clear</mat-icon> Clear
+      </button>
+    </div>
+  </div>
+  
+  <div class="job-list-content">
+    <div *ngIf="isLoading" class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading jobs...</p>
+    </div>
+    
+    <div *ngIf="!isLoading && error" class="error-container">
+      <mat-icon color="warn">error</mat-icon>
+      <p>{{ error }}</p>
+      <button mat-raised-button color="primary" (click)="loadJobs()">Try Again</button>
+    </div>
+    
+    <div *ngIf="!isLoading && !error">
+      <div *ngIf="filteredJobs.length === 0" class="no-jobs-container">
+        <mat-icon>work_off</mat-icon>
+        <p>No jobs found matching your criteria.</p>
+        <button mat-raised-button color="primary" (click)="clearFilters()">Clear Filters</button>
+      </div>
+      
+      <div *ngIf="filteredJobs.length > 0">
+        <div class="job-cards">
+          <mat-card *ngFor="let job of getCurrentPageJobs()" class="job-card">
+            <div class="job-card-header">
+              <div class="company-logo" *ngIf="job.companyLogo">
+                <img [src]="job.companyLogo" [alt]="job.company + ' logo'">
+              </div>
+              <div class="company-logo placeholder" *ngIf="!job.companyLogo">
+                <mat-icon>business</mat-icon>
+              </div>
+              <div class="job-header-content">
+                <mat-card-title>{{ job.title }}</mat-card-title>
+                <mat-card-subtitle>{{ job.company }} • {{ job.location }}</mat-card-subtitle>
+              </div>
+            </div>
+            
+            <mat-card-content>
+              <p class="job-description">{{ job.description | slice:0:200 }}{{ job.description.length > 200 ? '...' : '' }}</p>
+              
+              <div class="job-tags">
+                <mat-chip-set>
+                  <mat-chip *ngFor="let tag of job.tags.slice(0, 3)">{{ tag }}</mat-chip>
+                  <mat-chip *ngIf="job.tags.length > 3">+{{ job.tags.length - 3 }}</mat-chip>
+                </mat-chip-set>
+              </div>
+              
+              <div class="job-details">
+                <span class="job-detail">
+                  <mat-icon>work</mat-icon> {{ job.employmentType }}
+                </span>
+                <span class="job-detail">
+                  <mat-icon>stars</mat-icon> {{ job.experienceLevel }}
+                </span>
+                <span class="job-detail" *ngIf="job.salary">
+                  <mat-icon>attach_money</mat-icon> {{ job.salary }}
+                </span>
+                <span class="job-detail">
+                  <mat-icon>event</mat-icon> Posted {{ job.postedDate | date }}
+                </span>
+              </div>
+            </mat-card-content>
+            
+            <mat-card-actions>
+              <button mat-raised-button color="primary" [routerLink]="['/jobs', job.id]">View Details</button>
+              <button mat-stroked-button color="accent" [routerLink]="['/jobs', job.id, 'apply']">Apply Now</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        
+        <mat-paginator
+          [length]="totalJobs"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions"
+          [pageIndex]="pageIndex"
+          (page)="handlePageEvent($event)"
+          aria-label="Select page">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
