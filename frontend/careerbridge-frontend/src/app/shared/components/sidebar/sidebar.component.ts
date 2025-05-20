@@ -2,11 +2,15 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
-  imports: [],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-
+  menuItems = [
+    { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
+    { label: 'Jobs', icon: 'work', route: '/jobs' },
+    { label: 'My Applications', icon: 'description', route: '/dashboard' },
+    { label: 'Profile', icon: 'person', route: '/profile' },
+    { label: 'Settings', icon: 'settings', route: '/dashboard' }
+  ];
 }

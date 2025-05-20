@@ -1,1 +1,12 @@
-<p>sidebar works!</p>
+<div class="sidebar">
+  <div class="sidebar-content">
+    <ul class="menu-list">
+      <li *ngFor="let item of menuItems" class="menu-item">
+        <a [routerLink]="item.route" routerLinkActive="active-link" class="menu-link">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
