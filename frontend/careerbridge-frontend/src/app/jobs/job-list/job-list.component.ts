@@ -1,12 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { JobService } from '../../core/services/job.service';
 import { Job } from '../../core/models/job.model';
 
 @Component({
   selector: 'app-job-list',
   templateUrl: './job-list.component.html',
-  styleUrls: ['./job-list.component.scss']
+  styleUrls: ['./job-list.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule
+  ]
 })
 export class JobListComponent implements OnInit {
   jobs: Job[] = [];
@@ -98,6 +121,14 @@ export class JobListComponent implements OnInit {
   onSearch(term: string): void {
     this.searchTerm = term;
     this.applyFilters();
+  }
+
+  // Fix for the template binding error
+  onSearchFromInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target) {
+      this.onSearch(target.value);
+    }
   }
 
   clearFilters(): void {

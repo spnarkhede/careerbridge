@@ -1,13 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { JobService } from '../../core/services/job.service';
 import { Job } from '../../core/models/job.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-job-detail',
   templateUrl: './job-detail.component.html',
-  styleUrls: ['./job-detail.component.scss']
+  styleUrls: ['./job-detail.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule,
+    MatDividerModule,
+    MatProgressSpinnerModule
+  ]
 })
 export class JobDetailComponent implements OnInit {
   job: Job | null = null;

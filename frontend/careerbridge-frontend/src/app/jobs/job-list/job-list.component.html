@@ -7,7 +7,7 @@
         <mat-label>Search jobs</mat-label>
         <input matInput placeholder="Search by title, company, or keyword" 
                [value]="searchTerm"
-               (keyup.enter)="onSearch($event.target.value)">
+               (keyup.enter)="onSearchFromInput($event)">
         <button mat-icon-button matSuffix (click)="onSearch(searchTerm)">
           <mat-icon>search</mat-icon>
         </button>

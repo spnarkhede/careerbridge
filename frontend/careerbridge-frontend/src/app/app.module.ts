@@ -1,34 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { RouterModule, Routes } from '@angular/router';
-
-
-const routes: Routes = [
-  // your defined routes
-];
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule, 
-    RouterModule.forRoot([]), // ✅ even an empty route config is fine for now
+    BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     CoreModule,
     SharedModule
   ],
-  exports: [RouterModule], // ✅ must export RouterModule
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

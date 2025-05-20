@@ -21,7 +21,8 @@ export enum EmploymentType {
   PART_TIME = 'Part-time',
   CONTRACT = 'Contract',
   FREELANCE = 'Freelance',
-  INTERNSHIP = 'Internship'
+  INTERNSHIP = 'Internship',
+  TEMPORARY = 'Temporary'
 }
 
 export enum ExperienceLevel {

@@ -19,11 +19,6 @@ import { JobDetailComponent } from './job-detail/job-detail.component';
 import { JobApplyComponent } from './job-apply/job-apply.component';
 
 @NgModule({
-  declarations: [
-    JobListComponent,
-    JobDetailComponent,
-    JobApplyComponent
-  ],
   imports: [
     CommonModule,
     JobsRoutingModule,
@@ -38,7 +33,11 @@ import { JobApplyComponent } from './job-apply/job-apply.component';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    // Import standalone components
+    JobListComponent,
+    JobDetailComponent,
+    JobApplyComponent
   ]
 })
 export class JobsModule { }
