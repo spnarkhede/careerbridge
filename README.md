@@ -53,7 +53,7 @@ ng generate module core && ng generate module shared && ng generate module auth 
 ng generate component shared/components/header && ng generate component shared/components/footer && ng generate component shared/components/sidebar
 ng generate component auth/login && ng generate component auth/register && ng generate component auth/forgot-password
 ng generate component jobs/job-list && ng generate component jobs/job-detail && ng generate component jobs/job-apply
-
+ng generate component profile/profile-view && ng generate component profile/profile-edit && ng generate component dashboard/dashboard-home
 ```
 
 Choose routing and styling options during the prompt.
