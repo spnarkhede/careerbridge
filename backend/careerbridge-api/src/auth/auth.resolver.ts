@@ -14,7 +14,10 @@ export class AuthResolver {
 
   @Mutation(() => AuthResponse)
   async login(@Args('loginInput') loginDto: LoginDto): Promise<AuthResponse> {
-    const user = await this.authService.validateUser( loginDto.email, loginDto.password);
+    const user = await this.authService.validateUser(
+      loginDto.email,
+      loginDto.password,
+    );
     return this.authService.login(user);
   }
 
