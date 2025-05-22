@@ -1,1 +1,186 @@
-<p>dashboard-home works!</p>
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Welcome to Your Dashboard</h1>
+    <p class="subtitle">Manage your career journey with CareerBridge</p>
+  </div>
+
+  <div class="dashboard-stats">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>work</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>12</h2>
+          <p>Jobs Applied</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>visibility</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>24</h2>
+          <p>Profile Views</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>event_available</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>3</h2>
+          <p>Interviews</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>bookmark</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>8</h2>
+          <p>Saved Jobs</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="dashboard-sections">
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h2>Recent Applications</h2>
+        <a mat-button color="primary" routerLink="/applications">View All</a>
+      </div>
+      
+      <mat-card *ngIf="recentApplications?.length">
+        <mat-list>
+          <mat-list-item *ngFor="let application of recentApplications">
+            <div matListItemTitle>{{application.jobTitle}}</div>
+            <div matListItemLine>{{application.company}} • Applied on {{application.date | date}}</div>
+            <div matListItemMeta>
+              <mat-chip [ngClass]="'status-' + application.status.toLowerCase()">{{application.status}}</mat-chip>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+      
+      <mat-card *ngIf="!recentApplications?.length" class="empty-state">
+        <mat-card-content>
+          <mat-icon>work_off</mat-icon>
+          <p>You haven't applied to any jobs yet</p>
+          <a mat-raised-button color="primary" routerLink="/jobs">Browse Jobs</a>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h2>Recommended Jobs</h2>
+        <a mat-button color="primary" routerLink="/jobs">View All</a>
+      </div>
+      
+      <mat-card *ngIf="recommendedJobs?.length">
+        <mat-list>
+          <mat-list-item *ngFor="let job of recommendedJobs">
+            <div matListItemTitle>{{job.title}}</div>
+            <div matListItemLine>{{job.company}} • {{job.location}}</div>
+            <div matListItemMeta>
+              <button mat-icon-button color="primary" [routerLink]="['/jobs', job.id]">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+      
+      <mat-card *ngIf="!recommendedJobs?.length" class="empty-state">
+        <mat-card-content>
+          <mat-icon>search</mat-icon>
+          <p>Complete your profile to get job recommendations</p>
+          <a mat-raised-button color="primary" routerLink="/profile/edit">Update Profile</a>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="dashboard-section">
+    <div class="section-header">
+      <h2>Upcoming Interviews</h2>
+    </div>
+    
+    <mat-card *ngIf="upcomingInterviews?.length">
+      <mat-list>
+        <mat-list-item *ngFor="let interview of upcomingInterviews">
+          <div matListItemTitle>{{interview.jobTitle}}</div>
+          <div matListItemLine>{{interview.company}} • {{interview.date | date:'medium'}}</div>
+          <div matListItemMeta>
+            <button mat-stroked-button color="primary">
+              <mat-icon>event</mat-icon> Add to Calendar
+            </button>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+    
+    <mat-card *ngIf="!upcomingInterviews?.length" class="empty-state">
+      <mat-card-content>
+        <mat-icon>event_busy</mat-icon>
+        <p>No upcoming interviews scheduled</p>
+        <p class="hint-text">Keep applying to jobs to secure interviews</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="dashboard-section">
+    <div class="section-header">
+      <h2>Profile Completion</h2>
+    </div>
+    
+    <mat-card>
+      <mat-card-content>
+        <div class="profile-completion">
+          <div class="completion-header">
+            <h3>Your profile is 65% complete</h3>
+            <p>Complete your profile to increase visibility to employers</p>
+          </div>
+          
+          <mat-progress-bar mode="determinate" value="65" color="primary"></mat-progress-bar>
+          
+          <div class="completion-items">
+            <div class="completion-item">
+              <mat-icon color="primary">check_circle</mat-icon>
+              <span>Basic Information</span>
+            </div>
+            <div class="completion-item">
+              <mat-icon color="primary">check_circle</mat-icon>
+              <span>Work Experience</span>
+            </div>
+            <div class="completion-item">
+              <mat-icon color="primary">check_circle</mat-icon>
+              <span>Education</span>
+            </div>
+            <div class="completion-item">
+              <mat-icon color="warn">highlight_off</mat-icon>
+              <span>Skills</span>
+            </div>
+            <div class="completion-item">
+              <mat-icon color="warn">highlight_off</mat-icon>
+              <span>Resume Upload</span>
+            </div>
+          </div>
+          
+          <a mat-raised-button color="primary" routerLink="/profile/edit">Complete Profile</a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
